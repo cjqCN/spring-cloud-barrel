@@ -3,7 +3,17 @@ spring:
     name: cehn-oauth
 
   redis:
-    host: xxx.xxx.xxx.xxx
+    host: 39.108.212.90
+
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    enabled: true
+
+  sleuth:
+    sampler:
+      percentage: 1
+
+
 
 server:
   port: 7070

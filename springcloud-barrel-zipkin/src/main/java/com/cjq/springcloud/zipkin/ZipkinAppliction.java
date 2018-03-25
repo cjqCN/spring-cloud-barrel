@@ -1,4 +1,4 @@
-package com.cjq.springcloud.barrel.gateway;
+package com.cjq.springcloud.zipkin;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import zipkin.server.EnableZipkinServer;
 
 /**
  * @author jqChan
@@ -15,16 +15,17 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableZuulProxy
+@EnableZipkinServer
 @Slf4j
-public class GatewayApplication implements CommandLineRunner {
+public class ZipkinAppliction implements CommandLineRunner {
 
-    @Value("${server.port:8080}")
+
+    @Value("${server.port:8641}")
     private String serverPort;
 
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(GatewayApplication.class);
+        SpringApplication app = new SpringApplication(ZipkinAppliction.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
     }
@@ -33,4 +34,5 @@ public class GatewayApplication implements CommandLineRunner {
     public void run(String... strings) {
         log.info("Application is success, Index >> http://127.0.0.1:{}", serverPort);
     }
+
 }

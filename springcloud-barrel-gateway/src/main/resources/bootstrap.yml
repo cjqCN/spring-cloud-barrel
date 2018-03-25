@@ -1,6 +1,15 @@
 spring:
   application:
-    name: cnhe-gateway
+    name: cehn-gateway
+
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    enabled: true
+
+
+  sleuth:
+    sampler:
+      percentage: 1
 
 server:
   port: 8080

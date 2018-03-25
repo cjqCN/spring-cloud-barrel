@@ -24,6 +24,11 @@
         </dependency>
         <!--feign 依赖 end-->
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+
         <!--oauth2 依赖 start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

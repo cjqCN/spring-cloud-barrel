@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: cehn-upms
+
+
+server:
+  port: 8090
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_DEFAULTZONE:http://127.0.0.1:8761/eureka/}
+  instance:
+     prefer-ip-address: true
+
+

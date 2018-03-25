@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: cehn-resource
+
+
+server:
+  port: 8640
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_DEFAULTZONE:http://127.0.0.1:8761/eureka/}
+  instance:
+     prefer-ip-address: true
+
+

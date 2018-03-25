@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: cehn-oauth
+
+  redis:
+    host: xxx.xxx.xxx.xxx
+
+server:
+  port: 7070
+
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_DEFAULTZONE:http://127.0.0.1:8761/eureka/}
+  instance:
+     prefer-ip-address: true
+
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+      token-type:

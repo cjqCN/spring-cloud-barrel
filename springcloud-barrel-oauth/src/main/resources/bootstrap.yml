@@ -3,7 +3,7 @@ spring:
     name: cehn-oauth
 
   redis:
-    host: 39.108.212.90
+    host: xxx.xxx.xxx
 
   zipkin:
     base-url: http://127.0.0.1:9411

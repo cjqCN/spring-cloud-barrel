@@ -12,14 +12,17 @@
     <Appenders>
         <!--控制台日志输出设置 start-->
         <Console name="to-console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%highlight{[%d{yyyy-MM-dd HH:mm:ss.SSS}] - [%p] - [%c:%L] - [Method = %M] - [%m]}%n"/>
+            <PatternLayout
+                    pattern="%highlight{[%d{yyyy-MM-dd HH:mm:ss.SSS}] - [%p] - [%c:%L] - [Method = %M] - [%m]}%n"/>
         </Console>
         <!--控制台日志输出设置 end-->
         <!--文件日志输出设置 start-->
         <!--filePattern：表示当日志到达指定的大小或者时间，产生新日志时，旧日志的命名路径。-->
         <!--Policies：策略，表示日志什么时候应该产生新日志，可以有时间策略和大小策略等-->
-        <RollingFile name="${all-logger}" fileName="${basedir}/${all-logger}.log" append="true" filePattern="${basedir}/$${date:yyyy-MM}/${all-logger}-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%highlight{[%d{yyyy-MM-dd HH:mm:ss.SSS}] - [%p] - [%c:%L] - [Method = %M] - [%m]}%n"/>
+        <RollingFile name="${all-logger}" fileName="${basedir}/${all-logger}.log" append="true"
+                     filePattern="${basedir}/$${date:yyyy-MM}/${all-logger}-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout
+                    pattern="%highlight{[%d{yyyy-MM-dd HH:mm:ss.SSS}] - [%p] - [%c:%L] - [Method = %M] - [%m]}%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="50 MB"/><!-- 每到50M生成一个日志文件 -->
@@ -35,6 +38,45 @@
         </RollingFile>
 
         <!--文件日志输出设置 end-->
+        <!--Kafka日志输出设置 start-->
+        <!--设置topic-->
+        <Kafka name="KafkaLog" topic="log" ignoreExceptions="false">
+            <PatternLayout pattern="{[%d{yyyy-MM-dd HH:mm:ss.SSS}] - [%p] - [%c:%L] - [Method = %M] - [%m]}"/>
+            <!--设置Kafka连接-->
+            <Property name="bootstrap.servers">http://centOS:9094</Property>
+            <!--设置最大阻塞时间-->
+            <Property name="max.block.ms">2000</Property>
+        </Kafka>
+
+        <!--当Kafka宕机时采取写本地文件-->
+        <RollingFile name="failoverKafkaLog" fileName="${basedir}/kafka/failoverKafkaLog.log" append="true"
+                     filePattern="${basedir}/kafka/$${date:yyyy-MM}/failoverKafkaLog-%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%highlight{[%d{yyyy-MM-dd HH:mm:ss.SSS}] - [%p] - [%c:%L] - [Method = %M] - [%m]}%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50 MB"/><!-- 每到50M生成一个日志文件 -->
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <!-- 最大保存文件数，超过的删除 -->
+            <DefaultRolloverStrategy max="30" compressionLevel="9">
+                <Delete basePath="${basedir}" maxDepth="2">
+                    <IfFileName glob="*/*.log.gz"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+
+        </RollingFile>
+
+        <!--设置策略-->
+        <Failover name="KafkaFailover" primary="KafkaLog" retryIntervalSeconds="600">
+            <Failovers>
+                <AppenderRef ref="failoverKafkaLog"/>
+            </Failovers>
+        </Failover>
+        <!--Kafka日志输出设置 end-->
+
     </Appenders>
 
     <!--监控日志的位置设置 start-->
@@ -42,7 +84,8 @@
         <!--采用异步记录-->
         <AsyncRoot level="info">
             <AppenderRef ref="to-console"/>
-            <AppenderRef ref="${all-logger}"/>
+            <!--<AppenderRef ref="${all-logger}"/>-->
+            <AppenderRef ref="KafkaFailover"/>
         </AsyncRoot>
     </Loggers>
     <!--监控日志的位置设置 end-->

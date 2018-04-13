@@ -40,4 +40,5 @@ eureka:
   instance:
      prefer-ip-address: true
 
-
+# 关闭安全认证
+management.security.enabled: false

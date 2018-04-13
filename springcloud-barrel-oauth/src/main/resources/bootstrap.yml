@@ -33,3 +33,6 @@ security:
     resource:
       filter-order: 3
       token-type:
+
+# 关闭安全认证
+management.security.enabled: false

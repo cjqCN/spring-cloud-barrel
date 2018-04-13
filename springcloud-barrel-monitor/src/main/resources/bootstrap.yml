@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cehn-resource
+    name: cehn-monitor
 
   zipkin:
     base-url: http://127.0.0.1:9411
@@ -12,7 +12,7 @@ spring:
       percentage: 1
 
 server:
-  port: 8640
+  port: 8040
 
 
 eureka:

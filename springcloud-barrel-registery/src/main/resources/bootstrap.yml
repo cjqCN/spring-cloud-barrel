@@ -45,3 +45,5 @@ eureka:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
 
+# 关闭安全认证
+management.security.enabled: false

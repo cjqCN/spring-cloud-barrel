@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author chenjinquan
  */
-@Configuration
+//@Configuration
 public class FilterConfig {
 
     @Bean

@@ -16,6 +16,7 @@
         <module>springcloud-barrel-common</module>
         <module>springcloud-barrel-zipkin</module>
         <module>springcloud-barrel-monitor</module>
+        <module>springcloud-barrel-config</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,24 +1,23 @@
 spring:
   application:
-    name: cehn-resource
-#    配置注册中心
+    name: cehn-config-server
+
   cloud:
     config:
+      server:
+        git:
+          uri: https://github.com/cjqCN/SpringcloudConfig/
+#          searchPaths: respo
+          username:
+          password:
       label: master
-      profile: dev
-      uri: http://127.0.0.1:8585
-
-  zipkin:
-    base-url: http://127.0.0.1:9411
-    enabled: true
-
 
   sleuth:
     sampler:
       percentage: 1
 
 server:
-  port: 8640
+  port: 8585
 
 
 eureka:
@@ -31,5 +30,3 @@ eureka:
 
 # 关闭安全认证
 management.security.enabled: false
-
-

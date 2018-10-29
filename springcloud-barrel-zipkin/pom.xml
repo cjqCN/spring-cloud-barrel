@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>springcloud-barrel</artifactId>
-        <groupId>com.cjq</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>com.github.cjqcn</groupId>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <!--zipkin 依赖 start-->
@@ -30,6 +30,13 @@
             <artifactId>zipkin-autoconfigure-ui</artifactId>
         </dependency>
         <!--zipkin 依赖 start-->
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

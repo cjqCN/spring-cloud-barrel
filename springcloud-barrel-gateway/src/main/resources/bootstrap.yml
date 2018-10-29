@@ -2,43 +2,9 @@ spring:
   application:
     name: cehn-gateway
 
-  zipkin:
-    base-url: http://127.0.0.1:9411
-    enabled: true
-
-
-  sleuth:
-    sampler:
-      percentage: 1
-
-server:
-  port: 8080
-
-
-zuul:
-  add-proxy-headers: true
-  routes:
-    upms:
-      sensitiveHeaders:
-      path: /cehn-upms/**
-      serviceId: cehn-upms
-    oauth:
-      sensitiveHeaders:
-      path: /cehn-oauth/**
-      serviceId: cehn-oauth
-    resource:
-      sensitiveHeaders:
-      path: /cehn-resource/**
-      serviceId: cehn-resource
 
 
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_DEFAULTZONE:http://127.0.0.1:8761/eureka/}
-  instance:
-     prefer-ip-address: true
 
-# 关闭安全认证
-management.security.enabled: false
+
+

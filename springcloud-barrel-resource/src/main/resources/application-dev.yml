@@ -1,0 +1,55 @@
+eureka:
+  instance:
+    hostname: cehn-resource
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULTZONE:http://cehn-registry:18761/eureka/}
+
+server:
+  port: 18768
+
+
+debug: true
+logging:
+  config: classpath:log4j2-dev.xml
+
+
+
+management:
+  server:
+    port: 17768
+  endpoints:
+    env:
+      enabled: false
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info和health
+    health:
+      show-details: always #默认是never
+
+
+
+---
+#=========== ======== 分布式链路跟踪 zipkin 配置 start ======================
+
+spring:
+  sleuth:
+    sampler:
+      # 采样百分比，默认值是 0.1 也就是 10%，记录每一个调用
+      percentage: 1.0
+  # 使用 stream 存放在 rabbitmq 消息队列
+  rabbitmq:
+    host: cehn-rabbitmq
+    port: 18103
+    username: admin
+    password: adg123456
+---
+#==================== 分布式链路跟踪 zipkin 配置 end ========================
+
+
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:18763

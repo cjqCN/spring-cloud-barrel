@@ -1,0 +1,51 @@
+#=================================================================================
+# 容器相关设置
+server:
+  port: 18763
+
+
+
+debug: true
+logging:
+  config: classpath:log4j2-dev.xml
+#=================================================================================
+# spring 组件相关设置
+spring:
+  rabbitmq:
+    host: cehn-rabbitmq
+    port: 18103
+    username: admin
+    password: adg123456
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+
+
+#=================================================================================
+# spring cloud 组件相关设置
+
+eureka:
+  instance:
+    hostname: cehn-monitor
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULTZONE:http://cehn-registry:18761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+
+
+#=================================================================================
+# 其他辅助框架相关配置
+
+
+#=================================================================================
+# 自定义参数相关配置
+
+
+#=================================================================================
+
+
+
+

@@ -1,0 +1,55 @@
+#=================================================================================
+
+server:
+  port: 18761
+
+security:
+  basic:
+    # 启用身份认证
+    enabled: false
+  user:
+    name: cehn-registry
+    password: ${REGISTRY_SERVER_PASSWORD:123456}
+
+#=================================================================================
+
+debug: true
+logging:
+  config: classpath:log4j2-test.xml
+
+#================================= 注册中心单节点配置 start =================================
+
+eureka:
+  client:
+    # 设置是否将自己作为客户端注册到注册中心（缺省true）
+    # 是否检索服务。该应用为服务注册中心，职责为注册和发现服务，无需检索服务，设置为 false
+    # 这里为不需要（查看@EnableEurekaServer注解的源码，会发现它间接用到了@EnableDiscoveryClient）
+    fetch-registry: false
+    # 设置是否从注册中心获取注册信息（缺省true）
+    # 因为这是一个单点的EurekaServer，不需要同步其它EurekaServer节点的数据，故设为false
+    # 如果是多个节点，那这里可以注释掉，或是设置为true
+    # 代表不向注册中心注册自己
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    # 为了保证服务的快速发现和注销，我们加这两个参数
+    # Eureka 客户端向服务端发送心跳的时间间隔。（默认30）。间隔时间更新多个注册中心之间的服务清单
+    lease-renewal-interval-in-seconds: 10
+    # 假设上面的参数保证 Eureka 客户端 10s 发送一次心跳，如果客户端突然挂掉了，那 Eureka 服务端就会等下面数值时间，如果客户端还没发送，则剔除该客户端。（默认90）
+    lease-expiration-duration-in-seconds: 60
+  server:
+    # 如果 eureka 的页面界面显示：EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY'RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE
+    # 原因：自我保护机制。Eureka Server在运行期间，会统计心跳成功率在15分钟之内是否低于85%，如果出现低于的情况（在单机调试的时候很容易满足，实际在生产环境上通常是由于网络不稳定导致），
+    # Eureka Server会将当前的实例注册信息保护起来，同时提示这个警告。至于为什么需要有这个自我保护机制，官方的解释是：service不是强一致的，所以会有部分情况下没发现新服务导致请求出错，
+    # 对于Service发现服务而言，宁可返回某服务5分钟之前在哪几个服务器上可用的信息，也不能因为暂时的网络故障而找不到可用的服务器，而不返回任何结果
+    # 测试环境我们可以关掉保护机制
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 5000
+
+#================================= 注册中心单节点配置 end =================================
+
+
+#================================= 注册中心高可用配置 start =================================
+
+#================================= 注册中心高可用配置 end =================================
+
